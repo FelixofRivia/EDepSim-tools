@@ -1,0 +1,19 @@
+{
+    "GeoCuts": {
+        "Vertex_min_x": -800,
+        "Vertex_max_x": 800,
+        "Vertex_min_y": -800,
+        "Vertex_max_y": 800,
+        "Vertex_min_z": -400,
+        "Vertex_max_z": 400
+    },
+    "TrackCuts": {
+        "Min_number": 1,
+        "Max_number": 9999,
+        "Min_length_mm": 0,
+        "Min_en_deposit_MeV": 0
+    },
+    "InteractionCuts": {
+        "Allowed_interactions": ""
+    }
+}
