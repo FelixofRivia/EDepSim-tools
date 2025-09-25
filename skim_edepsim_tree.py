@@ -102,7 +102,7 @@ def plot_edep_tree_info(file_name):
         # for t in trajectories:
         #     print(t.GetTrackId(), t.GetName(), t.GetParentId(), t.GetPDGCode())
         for s in segments:
-            #h_seg_detector.Fill(s.first, len(s.second))
+            h_seg_detector.Fill(s.first.c_str(), len(s.second))
             if s.first == "LArHit":
                 for v in s.second:
                     if v.GetPrimaryId() in primaries_tot_lengths:
@@ -160,19 +160,19 @@ def plot_edep_tree_info(file_name):
 
     # Update the canvas to display the histograms
     c_interactions.Update()
-    c_interactions.SaveAs("interactions.png")
+    c_interactions.SaveAs("output/interactions.png")
 
     c_vertices.Update()
-    c_vertices.SaveAs("vertices.png")
+    c_vertices.SaveAs("output/vertices.png")
 
     c_traj.Update()
-    c_traj.SaveAs("traj.png")
+    c_traj.SaveAs("output/traj.png")
 
     c_seg.Update()
-    c_seg.SaveAs("seg.png")
+    c_seg.SaveAs("output/seg.png")
 
     c_LAr.Update()
-    c_LAr.SaveAs("LAr.png")
+    c_LAr.SaveAs("output/LAr.png")
 
     file.Close()
 
