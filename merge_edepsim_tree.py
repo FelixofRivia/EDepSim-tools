@@ -4,6 +4,8 @@ import glob
 import argparse
 import ROOT
 
+import edep_tree
+
 def build_chain(tree_name, path_pattern):
     """Build a TChain from all ROOT files matching the pattern."""
     chain = ROOT.TChain(tree_name)
@@ -16,19 +18,6 @@ def build_chain(tree_name, path_pattern):
     print(f"Added {len(files)} files to the chain.")
     return chain
 
-def copy_detsim_trees(input_file, output_file, tree_names, directory):
-    """Copy detsim trees from reference input file to output file."""
-    output_file.cd()
-    output_file.mkdir(directory)
-    for name in tree_names:
-        tree = input_file.Get(f"{directory}/{name}")
-        if tree:
-            output_file.cd(directory)
-            tree.CloneTree().Write()
-            print(f"Copied tree: {directory}/{name}")
-        else:
-            print(f"Warning: Tree not found - {directory}/{name}")
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
@@ -40,8 +29,6 @@ if __name__ == "__main__":
 
     INPUT_PATH_PATTERN = args.input_path_pattern #"/storage/gpfs_data/neutrino/SAND-LAr/SAND-LAr-EDEPSIM-PROD/new-numu-CC-QE-in-GRAIN/grain_numu_ccqe/grain_numu_ccqe_*/sand-events.*.edep.root"
     OUTPUT_PATH = args.output_file
-    DETSIM_DIR = "DetSimPassThru"
-    DETSIM_TREES = ["InputKinem", "InputFiles", "gRooTracker"]
 
     # Suppress GUI popups from ROOT
     ROOT.gROOT.SetBatch(True)
@@ -75,17 +62,11 @@ if __name__ == "__main__":
 
     # Copy detsim trees
     print("Copying detsim trees...")
-    copy_detsim_trees(input_file, output_file, DETSIM_TREES, DETSIM_DIR)
+    edep_tree.copy_detsim_trees(input_file, output_file)
 
     # Copy geometry
     print("Copying geometry...")
-    geo = input_file.Get("EDepSimGeometry")
-    if geo:
-        output_file.cd()
-        geo.Write()
-        print("Geometry copied.")
-    else:
-        print("Warning: EDepSimGeometry not found in reference file.")
+    edep_tree.copy_geometry(input_file, output_file)
 
     output_file.Close()
     input_file.Close()

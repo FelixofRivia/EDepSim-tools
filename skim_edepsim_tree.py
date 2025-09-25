@@ -3,6 +3,8 @@ import numpy as np
 import json
 import argparse
 
+import edep_tree
+
 def create_default_config_file():
     # Create a configuration dictionary
     config = {
@@ -108,20 +110,9 @@ def create_skimmed_file(file_name, output_name, cuts):
     # Write the new tree to the new file and close the files
     new_tree.AutoSave()
 
-    # Copy the directory from the original file to the new file
-    output_file.cd()
-    output_file.mkdir("DetSimPassThru") 
+    edep_tree.copy_detsim_trees(file, output_file)
 
-    # Copy all contents of the directory
-    for t_name in ["InputKinem", "InputFiles", "gRooTracker"]:
-        t = file.Get(f"DetSimPassThru/{t_name}")
-        output_file.cd("DetSimPassThru")
-        t.CloneTree().Write()
-
-    # Copy the geometry from the original file to the new file
-    geo_manager = file.Get("EDepSimGeometry")
-    output_file.cd()
-    geo_manager.Write()
+    edep_tree.copy_geometry(file, output_file)
 
     output_file.Close()
     file.Close()
@@ -131,7 +122,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("input_file", type=str, help="EDepSim input file")
     parser.add_argument("--config_file", type=str, default="edepsim_tree_cuts.json", help="json configuration file")
-    parser.add_argument("--output_file", type=str, default="skimmed.edep-sim.root", help="Output ROOT file name")
+    parser.add_argument("--output_file", type=str, default="output/skimmed.root", help="Output file name")
     args = parser.parse_args()
 
     #create_default_config_file()
