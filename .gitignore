@@ -1,2 +1,3 @@
 /output/
-__pycache__/
+/__pycache__/
+/condor_scripts/logs/
