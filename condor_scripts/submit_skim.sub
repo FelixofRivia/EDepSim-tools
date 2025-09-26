@@ -1,0 +1,9 @@
+executable              = launch_skim_edepsim_tree.sh                                    
+arguments               = $(Item)
+transfer_input_files    = /home/NEUTRINO/fmei/EDepSim-tools/source_libs_neutrino01.sh, /home/NEUTRINO/fmei/EDepSim-tools/skim_edepsim_tree.py, /home/NEUTRINO/fmei/EDepSim-tools/output/edepsim_tree_cuts_TDR.json, /home/NEUTRINO/fmei/EDepSim-tools/edep_tree.py
+log                     = logs/$(ClusterId).$(Process).$(Item).log
+output                  = logs/$(ClusterId).$(Process).$(Item).out
+error                   = logs/$(ClusterId).$(Process).$(Item).err
+should_transfer_files   = Yes
+when_to_transfer_output = ON_EXIT
+queue from seq 1 9 |
